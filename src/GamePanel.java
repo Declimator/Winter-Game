@@ -17,12 +17,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Map map = new Map();
 	Character c = new Character();
 	public GamePanel() {
-		try {
+		/*try {
 			charImg = ImageIO.read(this.getClass().getResourceAsStream("download.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		System.out.println("test");
 		t.start();
 	}
