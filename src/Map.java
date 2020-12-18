@@ -5,6 +5,8 @@ public class Map {
 	public int Map [][];
 	public void drawGrid(Graphics g) {
 		int disp;
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, 1900, 1100);
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 18; j++) {
 				g.setColor(Color.LIGHT_GRAY);
