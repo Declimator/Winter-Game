@@ -71,39 +71,21 @@ public class Character {
 				if(left == true) {
 					x-=(speed/Math.sqrt(2));
 					y-=(speed/Math.sqrt(2));
-					gridX = (x-55)/50;
-					gridY = (y-55)/50;
-					while(map[gridX][gridY] > 0) {
-						x++;
-						y++;
-						gridX = (x-55)/50;
-						gridY = (y-55)/50;
-					}
 				} else if(right == true) {
 					x+=(speed/Math.sqrt(2));
 					y-=(speed/Math.sqrt(2));
-					gridX = (x-55)/50;
-					gridY = (y-55)/50;
 				} else {
 					y-=speed;
-					gridX = (x-55)/50;
-					gridY = (y-55)/50;
 				}
 			} else if(down == true) {
 				if(left == true) {
 					x-=(speed/Math.sqrt(2));
 					y+=(speed/Math.sqrt(2));
-					gridX = (x-55)/50;
-					gridY = (y-55)/50;
 				} else if(right == true) {
 					x+=(speed/Math.sqrt(2));
 					y+=(speed/Math.sqrt(2));
-					gridX = (x-55)/50;
-					gridY = (y-55)/50;
 				} else {
 					y+=speed;
-					gridX = (x-55)/50;
-					gridY = (y-55)/50;
 				}
 			} else {
 				if(left == true) {
