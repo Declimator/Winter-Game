@@ -20,9 +20,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 	Timer conditions = new Timer(5000, this);
 	int day = 0;
 	public static BufferedImage charImg;
-	Map map = new Map();
-	int x = 55, y = 55;
-	Character c = new Character();
+	Map map = new Map(36, 20);
+	int randomspawnx;
+	int randomspawny;
+	Character c;
 	Font font;
 	public GamePanel() {
 		/*try {
@@ -32,9 +33,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 			e.printStackTrace();
 		}
 		*/
-		font = new Font("Arial", Font.BOLD, 20);
 		t.start();
 		z.start();
+		map.generateTerrain();
+		randomspawnx = new Random().nextInt(36);
+		randomspawny = new Random().nextInt(20);
+		while(map.Map[randomspawnx][randomspawny] > 0) {
+			randomspawnx = new Random().nextInt(36);
+			randomspawny = new Random().nextInt(20);
+		}
+		c = new Character(randomspawnx, randomspawny);
+		font = new Font("Arial", Font.BOLD, 20);
 	}
 	public void paintComponent(Graphics g) {
 		g.drawImage(charImg, 100, 100, 100, 100, null);
@@ -42,7 +51,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener{
 		g.setFont(font);
 		g.setColor(Color.WHITE);
 		g.drawString("Day: " + day, 20, 30);
-		c.update();
+		c.update(map.Map);
 		g.drawString("Stamina: " + c.stamina, 100, 30);
 		c.draw(g);
 	}
