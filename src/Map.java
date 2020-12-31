@@ -6,6 +6,7 @@ public class Map {
 	public int[][] Map;
 	int width;
 	int height;
+	int trees;
 	Map(int w, int h){
 		Map = new int[36][20];
 		this.width = w;
@@ -20,6 +21,14 @@ public class Map {
 					g.setColor(Color.GREEN);
 				} else if(Map[j][i] == 2) {
 					g.setColor(Color.DARK_GRAY);
+				} else if(Map[j][i] == 3) {
+					g.setColor(Color.CYAN);
+				} else if(Map[j][i] == 4) {
+					g.setColor(Color.getHSBColor(27, 100, 46));
+				} else if(Map[j][i] == -1) {
+					g.setColor(Color.ORANGE);
+				} else if(Map[j][i] == -2) {
+					g.setColor(Color.RED);
 				}
 				else if(i % 2 == 0) {
 					if(j % 2 == 0) {
@@ -74,6 +83,7 @@ public class Map {
 	}
 	public void generateTrees() {
 		int random1 = new Random().nextInt(20)+60;
+		trees = random1;
 		int randomx;
 		int randomy;
 		System.out.println(random1);
@@ -100,6 +110,36 @@ public class Map {
 				randomy = new Random().nextInt(20);
 			}
 			Map[randomx][randomy] = 2;
+		}
+	}
+	public void freeze() {
+		int random1 = new Random().nextInt(10)+10;
+		int randomx;
+		int randomy;
+		System.out.println(random1);
+		for(int i = 0; i < random1; i++) {
+			randomx = new Random().nextInt(36);
+			randomy = new Random().nextInt(20);
+			while(Map[randomx][randomy] > 0) {
+				randomx = new Random().nextInt(36);
+				randomy = new Random().nextInt(20);
+			}
+			Map[randomx][randomy] = 3;
+		}
+	}
+	public void hailStorm() {
+		int random1 = new Random().nextInt(20)+10;
+		int randomx;
+		int randomy;
+		System.out.println(random1);
+		for(int i = 0; i < random1; i++) {
+			randomx = new Random().nextInt(36);
+			randomy = new Random().nextInt(20);
+			while(Map[randomx][randomy] > 0) {
+				randomx = new Random().nextInt(36);
+				randomy = new Random().nextInt(20);
+			}
+			Map[randomx][randomy] = -1;
 		}
 	}
 }
