@@ -1,13 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class Character {
 	int TL, BR;
 	int x, y;
 	double speed = 10;
 	int d;
-	int food = 300;
-	int gameState = 1;
+	int food = 500;
+	int gameState = 0;
 	boolean snow = false;
 	int stamina = 500;
 	boolean up, down, left, right, moving;
@@ -16,9 +17,12 @@ public class Character {
 		this.y = y * 50 + 55;
 	}
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, BufferedImage image, boolean hitboxes) {
+		if(hitboxes == true) {
 		g.setColor(Color.BLUE);
-		g.fillRect(x, y, 40, 40);
+		g.drawRect(x, y, 40, 40);
+		}
+		g.drawImage(image, x, y, 40, 40, null);
 	}
 
 	public void update(int[][] map) {
@@ -54,7 +58,7 @@ public class Character {
 			if (snow == true) {
 				speed = 1;
 			} else {
-				speed = 10;
+				speed = 5;
 			}
 			if (up == true) {
 				if (left == true) {
