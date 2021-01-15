@@ -16,7 +16,8 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// 100/3, 60000, 10000
 	Timer t = new Timer(100 / 3, this);
-	Timer z = new Timer(5000, this);
+	Timer z = new Timer(10000, this);
+	Timer snowStorm = new Timer(5000, this);
 	Timer conditions = new Timer(1000, this);
 	Timer hailStorm = new Timer(200, this);
 	int day = 0;
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font subFont;
 	Font visualFont;
+	Font minisubFont;
 	int gameState = 0;
 	boolean win;
 	Timer[] trees;
@@ -42,7 +44,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int[] treeY;
 	int[] treeSize;
 	int treecounter;
+	boolean gameStart = true;
 	boolean hitboxes = false;
+	boolean snow = false;
+	boolean eventInfo = false;
 
 	public GamePanel() {
 
@@ -66,6 +71,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block e.printStackTrace();
 		}
+		createMap();
+		c = new Character(randomspawnx, randomspawny);
+		font = new Font("Arial", Font.BOLD, 20);
+		subFont = new Font("Arial", Font.PLAIN, 80);
+		titleFont = new Font("Arial", Font.BOLD, 150);
+		visualFont = new Font("Arial", Font.BOLD, 70);
+		minisubFont = new Font("Arial", Font.PLAIN, 40);
+
+	}
+
+	void createMap() {
+		snow = false;
+		day = 0;
+		treecounter = 0;
 		map.generateTerrain();
 		trees = new Timer[map.trees];
 		treeX = new int[map.trees];
@@ -79,75 +98,78 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			randomspawny = new Random().nextInt(20);
 		}
 		c = new Character(randomspawnx, randomspawny);
-		font = new Font("Arial", Font.BOLD, 20);
-		subFont = new Font("Arial", Font.PLAIN, 80);
-		titleFont = new Font("Arial", Font.BOLD, 150);
-		visualFont = new Font("Arial", Font.BOLD, 70);
-		if (gameState == 0) {
+	}
 
-		}
-		if (gameState == 1) {
-			t.start();
-			z.start();
-
-		}
+	void startGame() {
+		t.restart();
+		z.restart();
+		System.out.println("started");
 	}
 
 	public void paintComponent(Graphics g) {
 		if (gameState == 0) {
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, 1900, 1100);
-			g.setColor(Color.getHSBColor(11, 200, 99));
-			for (int i = 0; i < 22; i++) {
-				for (int j = 0; j < 19; j++) {
-					if( i % 2 == 0) 
-					g.fillRect(j * 100, i * 50, 50, 50);
-					else
-					g.fillRect(j*100+50, i*50, 50, 50);
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, 1900, 1100);
+				g.setColor(Color.getHSBColor(11, 200, 99));
+				for (int i = 0; i < 22; i++) {
+					for (int j = 0; j < 19; j++) {
+						if (i % 2 == 0)
+							g.fillRect(j * 100, i * 50, 50, 50);
+						else
+							g.fillRect(j * 100 + 50, i * 50, 50, 50);
+					}
 				}
+				if (eventInfo == true) {
+					g.setColor(Color.CYAN);
+					
+				} else {
+				g.setColor(Color.CYAN);
+				g.setFont(titleFont);
+				g.drawString("Survive the Winter", 280, 200);
+				g.setFont(subFont);
+				g.drawString("Survive for 20 days", 555, 330);
+				g.drawString("Press SPACE to play", 535, 1000);
+				g.setFont(minisubFont);
+				g.drawString("Press G for more info", 730, 1050);
+				for (int i = 0; i < 5; i++) {
+					g.drawRect(225 + i, 425 + i, 100 - 2 * i, 100 - 2 * i);
+					g.drawRect(225 + i, 535 + i, 100 - 2 * i, 100 - 2 * i);
+					g.drawRect(115 + i, 535 + i, 100 - 2 * i, 100 - 2 * i);
+					g.drawRect(335 + i, 535 + i, 100 - 2 * i, 100 - 2 * i);
+					g.drawRect(850 + i, 535 + i, 100 - 2 * i, 100 - 2 * i);
+					g.drawRect(1500 + i, 535 + i, 100 - 2 * i, 100 - 2 * i);
+				}
+				g.setFont(visualFont);
+				g.drawString("W", 242, 505);
+				g.drawString("S", 250, 612);
+				g.drawString("A", 140, 612);
+				g.drawString("D", 360, 612);
+				g.drawString("Q", 870, 612);
+				g.drawString("H", 1525, 612);
+				g.setFont(subFont);
+				g.drawString("Movement", 90, 750);
+				g.drawString("Eat near Trees", 650, 750);
+				g.drawString("Show hitboxes", 1300, 750);
 			}
-			g.setColor(Color.CYAN);
-			g.setFont(titleFont);
-			g.drawString("Survive the Winter", 280, 200);
-			g.setFont(subFont);
-			g.drawString("Survive for 20 days", 555, 330);
-			g.drawString("Press SPACE to play", 525, 1000);
-			for(int i = 0; i < 5; i++) {
-			g.drawRect(225+i, 425+i, 100-2*i, 100-2*i);
-			g.drawRect(225+i, 535+i, 100-2*i, 100-2*i);
-			g.drawRect(115+i, 535+i, 100-2*i, 100-2*i);
-			g.drawRect(335+i, 535+i, 100-2*i, 100-2*i);
-			g.drawRect(850+i, 535+i, 100-2*i, 100-2*i);
-			g.drawRect(1500+i, 535+i, 100-2*i, 100-2*i);
-			}
-			g.setFont(visualFont);
-			g.drawString("W", 242, 505);
-			g.drawString("S", 250, 612);
-			g.drawString("A", 140, 612);
-			g.drawString("D", 360, 612);
-			g.drawString("Q", 870, 612);
-			g.drawString("H", 1525, 612);
-			g.setFont(subFont);
-			g.drawString("Movement", 90, 750);
-			g.drawString("Eat near Trees", 650, 750);
-			g.drawString("Show hitboxes", 1300, 750);
 		} else if (gameState == 1) {
 			if (facingRight == true)
 				g.drawImage(charRight, 100, 100, 100, 100, null);
 			else
 				g.drawImage(charLeft, 100, 100, 100, 100, null);
-			map.drawGrid(g, bush, berryBush);
-			for (int i = 0; i < treecounter; i++) {
-				if (trees[i].isRunning()) {
-					g.setColor(Color.RED);
-					g.drawRect(treeX[i] * 50 + 50 + (50 - treeSize[i]) / 2, treeY[i] * 50 + 50 + (50 - treeSize[i]) / 2,
-							treeSize[i], treeSize[i]);
+			map.drawGrid(g, bush, berryBush, events);
+			if (gameStart == false) {
+				for (int i = 0; i < treecounter; i++) {
+					if (trees[i].isRunning()) {
+						g.setColor(Color.RED);
+						g.drawRect(treeX[i] * 50 + 50 + (50 - treeSize[i]) / 2,
+								treeY[i] * 50 + 50 + (50 - treeSize[i]) / 2, treeSize[i], treeSize[i]);
+					}
 				}
 			}
 			g.setFont(font);
 			g.setColor(Color.WHITE);
 			g.drawString("Day: " + day, 20, 30);
-			c.update(map.Map);
+			c.update(map.Map, snow);
 			g.drawString("Stamina: " + c.stamina, 100, 30);
 			g.drawRect(250, 10, 100, 25);
 			g.setColor(Color.ORANGE);
@@ -166,10 +188,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				g.fillRect(401, 11, 149, 24);
 			}
 		} else if (gameState == 2) {
+			t.stop();
+			z.stop();
+			snowStorm.stop();
+			hailStorm.stop();
+			conditions.stop();
+			for (int i = 0; i < treecounter; i++) {
+				trees[i].stop();
+			}
+			events = "";
+
+			gameStart = true;
 			if (win == false) {
 				g.setColor(Color.RED);
 				g.fillRect(0, 0, 1900, 1100);
-				g.drawString("Game Over", 280, 300);
+				g.setColor(Color.BLACK);
+				g.setFont(titleFont);
+				g.drawString("You Died", 630, 300);
+				g.setFont(subFont);
+				g.drawString("Days Survived: " + day, 660, 700);
+				g.drawString("Press SPACE to restart", 535, 1000);
 			} else {
 				g.setColor(Color.BLUE);
 				g.fillRect(0, 0, 1900, 1100);
@@ -220,7 +258,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			}
 			if (arg0.getSource() == conditions) {
-				c.snow = false;
 				for (int i = 0; i < 20; i++) {
 					for (int j = 0; j < 36; j++) {
 						if (map.Map[j][i] == -2) {
@@ -228,6 +265,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 						}
 					}
 				}
+			}
+			if (arg0.getSource() == snowStorm) {
+				snow = false;
+				System.out.println("end");
 			}
 			for (int i = 0; i < trees.length; i++) {
 				if (arg0.getSource() == trees[i]) {
@@ -241,9 +282,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void snowStorm() {
-		conditions.restart();
+		snowStorm.restart();
 		events = "snow storm";
-		c.snow = true;
+		snow = true;
 	}
 
 	public void hailStorm() {
@@ -261,8 +302,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		if (gameState == 0) {
-			if (arg0.getKeyCode() == KeyEvent.VK_SPACE)
+			if (arg0.getKeyCode() == KeyEvent.VK_G) {
+				eventInfo = true;
+			}
+		}
+		if (gameStart == true) {
+			if (arg0.getKeyCode() == KeyEvent.VK_SPACE) {
+				startGame();
+				createMap();
 				gameState = 1;
+				gameStart = false;
+			}
 		}
 		// TODO Auto-generated method stub
 		if (gameState == 1) {
@@ -422,11 +472,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				else
 					hitboxes = false;
 			}
-			if(arg0.getKeyCode() == KeyEvent.VK_I) {
+			if (arg0.getKeyCode() == KeyEvent.VK_I) {
 				gameState = 2;
 				win = false;
+				System.out.println("test");
 			}
-			if(arg0.getKeyCode() == KeyEvent.VK_O) {
+			if (arg0.getKeyCode() == KeyEvent.VK_O) {
 				gameState = 2;
 				win = true;
 			}

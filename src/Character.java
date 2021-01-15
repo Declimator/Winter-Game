@@ -9,7 +9,6 @@ public class Character {
 	int d;
 	int food = 500;
 	int gameState = 0;
-	boolean snow = false;
 	int stamina = 500;
 	boolean up, down, left, right, moving;
 	Character(int x, int y) {
@@ -20,12 +19,12 @@ public class Character {
 	public void draw(Graphics g, BufferedImage image, boolean hitboxes) {
 		if(hitboxes == true) {
 		g.setColor(Color.BLUE);
-		g.drawRect(x, y, 40, 40);
+		g.drawRect(x-5, y-5, 50, 50);
 		}
 		g.drawImage(image, x, y, 40, 40, null);
 	}
 
-	public void update(int[][] map) {
+	public void update(int[][] map, boolean snow) {
 		int gridX, gridY, gridXn, gridYn;
 		food--;
 		if(food == 0) {
@@ -58,7 +57,7 @@ public class Character {
 			if (snow == true) {
 				speed = 1;
 			} else {
-				speed = 5;
+				speed = 4;
 			}
 			if (up == true) {
 				if (left == true) {

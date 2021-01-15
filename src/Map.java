@@ -17,7 +17,7 @@ public class Map {
 		this.height = h;
 	}
 
-	public void drawGrid(Graphics g, BufferedImage BerryTree, BufferedImage Tree) {
+	public void drawGrid(Graphics g, BufferedImage BerryTree, BufferedImage Tree, String snowstorm) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 1900, 1100);
 		for (int i = 0; i < 20; i++) {
@@ -38,21 +38,21 @@ public class Map {
 					g.setColor(Color.RED);
 				} else if (i % 2 == 0) {
 					if (j % 2 == 0) {
-						g.setColor(Color.LIGHT_GRAY);
+							g.setColor(Color.LIGHT_GRAY);
 					} else {
 						g.setColor(Color.WHITE);
 					}
 				} else {
 					if (j % 2 == 1) {
-						g.setColor(Color.LIGHT_GRAY);
+							g.setColor(Color.LIGHT_GRAY);
 					} else {
 						g.setColor(Color.WHITE);
 					}
 				}
 				if (isTree == true)
-					g.drawImage(Tree, j*50+50, i*50+50, 50, 50, null);
-				else if(isBerryTree == true) 
-					g.drawImage(BerryTree, j*50+50, i*50+50, 50, 50, null);
+					g.drawImage(Tree, j * 50 + 50, i * 50 + 50, 50, 50, null);
+				else if (isBerryTree == true)
+					g.drawImage(BerryTree, j * 50 + 50, i * 50 + 50, 50, 50, null);
 				else
 					g.fillRect(j * 50 + 50, i * 50 + 50, 50, 50);
 				isTree = false;
@@ -62,6 +62,7 @@ public class Map {
 	}
 
 	public void generateTerrain() {
+		Map = new int[36][20];
 		generateTrees();
 		generateRocks();
 	}
