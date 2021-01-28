@@ -129,8 +129,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				g.setFont(subFont);
 				g.drawString("Survive for 20 days", 555, 330);
 				g.drawString("Press SPACE to play", 535, 1000);
-				g.setFont(minisubFont);
-				g.drawString("Press G for more info", 730, 1050);
 				for (int i = 0; i < 5; i++) {
 					g.drawRect(225 + i, 425 + i, 100 - 2 * i, 100 - 2 * i);
 					g.drawRect(225 + i, 535 + i, 100 - 2 * i, 100 - 2 * i);
@@ -301,11 +299,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if (gameState == 0) {
-			if (arg0.getKeyCode() == KeyEvent.VK_G) {
-				eventInfo = true;
-			}
-		}
 		if (gameStart == true) {
 			if (arg0.getKeyCode() == KeyEvent.VK_SPACE) {
 				startGame();
